@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Mobile Admin | POS Billing{% endblock %}
+{% block content %}
+<div class="mobile-shell">
+  <div class="mobile-head">
+    <div><small>POS ADMIN</small><h3>Dashboard</h3></div>
+    <span class="mobile-user">● {{ request.user.username }}</span>
+  </div>
+  <div class="mobile-grid">
+    <a href="{% url 'products' %}" class="mobile-tile">📦<b>Products</b><small>{{ product_count }} items</small></a>
+    <a href="{% url 'staff' %}" class="mobile-tile">👥<b>Staff</b><small>{{ staff_count }} users</small></a>
+    <a href="{% url 'suppliers' %}" class="mobile-tile">🚚<b>Suppliers</b><small>{{ supplier_count }}</small></a>
+    <a href="{% url 'returns' %}" class="mobile-tile">↩<b>Returns</b><small>Manage</small></a>
+    <a href="{% url 'ledger' %}" class="mobile-tile">📒<b>Ledger</b><small>Finance</small></a>
+    <a href="{% url 'reports' %}" class="mobile-tile">📊<b>Reports</b><small>{{ sales_count }} invoices</small></a>
+    <a href="{% url 'billing' %}" class="mobile-tile">🧾<b>Billing</b><small>Open POS</small></a>
+  </div>
+  <div class="mobile-balance"><small>Total Sales</small><strong>₹{{ sales_total|floatformat:2 }}</strong></div>
+  <h6 class="mt-4">Low Stock</h6>
+  {% for p in low_stock %}
+  <div class="mobile-list"><span>{{ p.name }}<small>{{ p.sku }}</small></span><b>{{ p.stock }}</b></div>
+  {% empty %}<div class="text-muted">No low stock.</div>{% endfor %}
+  <div class="mobile-nav">
+    <a href="{% url 'admin_portal_mobile' %}">⌂<small>Home</small></a>
+    <a href="{% url 'products' %}">▣<small>Products</small></a>
+    <a href="{% url 'billing' %}">▤<small>Billing</small></a>
+    <a href="{% url 'reports' %}">◉<small>Reports</small></a>
+  </div>
+</div>
+{% endblock %}

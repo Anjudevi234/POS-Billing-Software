@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Ledger{% endblock %}
+{% block content %}
+<div class="container py-4"><div class="d-flex justify-content-between"><h2>Ledger</h2><div class="stat mini"><span>Net</span><strong>₹{{ balance }}</strong></div></div>
+<div class="card mt-3"><div class="card-body table-responsive"><table class="table"><tr><th>Date</th><th>Type</th><th>Reference</th><th>Description</th><th>Amount</th></tr>
+{% for e in entries %}<tr><td>{{ e.created_at|date:"d M Y H:i" }}</td><td>{{ e.entry_type }}</td><td>{{ e.reference }}</td><td>{{ e.description }}</td><td>₹{{ e.amount }}</td></tr>{% empty %}<tr><td colspan="5">No ledger entries.</td></tr>{% endfor %}
+</table></div></div></div>
+{% endblock %}

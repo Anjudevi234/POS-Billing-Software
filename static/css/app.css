@@ -1,0 +1,33 @@
+body { background:#f5f7fb; }
+.card { border:0; border-radius:14px; }
+.stat { background:white; padding:20px; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); height:100%; }
+.stat span { display:block; color:#6c757d; font-size:.9rem; }
+.stat strong { display:block; font-size:1.6rem; margin-top:6px; }
+.stat.mini { padding:10px 18px; height:auto; }
+.quick { display:block; padding:18px; background:white; border-radius:12px; text-decoration:none; color:#212529; font-weight:600; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.quick:hover { transform:translateY(-1px); }
+.login-wrap { min-height:calc(100vh - 56px); display:grid; place-items:center; padding:20px; }
+.login-card { width:min(420px,100%); border-radius:18px; }
+.mobile-shell { max-width:430px; min-height:calc(100vh - 56px); margin:0 auto; padding:18px 16px 90px; background:#f7f8fc; }
+.mobile-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+.mobile-head small { color:#6c757d; letter-spacing:1px; }
+.mobile-head h3 { margin:2px 0; font-weight:800; }
+.mobile-user { font-size:.8rem; color:#198754; }
+.mobile-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.mobile-tile { background:#fff; border-radius:16px; padding:17px; text-decoration:none; color:#212529; box-shadow:0 3px 12px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:4px; font-size:1.5rem; }
+.mobile-tile b { font-size:1rem; }
+.mobile-tile small { color:#6c757d; font-size:.75rem; }
+.mobile-balance { margin-top:14px; background:#212529; color:white; border-radius:16px; padding:18px; }
+.mobile-balance small { display:block; opacity:.7; }
+.mobile-balance strong { font-size:1.8rem; }
+.mobile-list { display:flex; justify-content:space-between; align-items:center; padding:13px 0; border-bottom:1px solid #e5e7eb; }
+.mobile-list span { display:flex; flex-direction:column; }
+.mobile-list small { color:#6c757d; }
+.mobile-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:min(430px,100%); background:#fff; border-top:1px solid #ddd; display:grid; grid-template-columns:repeat(4,1fr); padding:8px 4px; z-index:10; }
+.mobile-nav a { text-decoration:none; color:#343a40; text-align:center; font-size:1.15rem; }
+.mobile-nav small { display:block; font-size:.65rem; }
+@media print {
+  nav, .no-print, .alert { display:none !important; }
+  body { background:#fff; }
+  .invoice { box-shadow:none !important; }
+}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Billing Portal{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+<div class="d-flex justify-content-between align-items-center mb-3"><div><h2>Billing Portal</h2><p class="text-muted">Select products, take payment and print invoice.</p></div>{% if request.user.is_superuser %}<a class="btn btn-outline-dark" href="{% url 'admin_portal' %}">Admin</a>{% endif %}</div>
+<form method="post" action="{% url 'checkout' %}" id="billForm">{% csrf_token %}
+<div class="row g-3">
+<div class="col-lg-7">
+<div class="card"><div class="card-body">
+<input id="productSearch" class="form-control mb-3" placeholder="Search products...">
+<div class="table-responsive"><table class="table align-middle" id="productTable">
+<tr><th>Product</th><th>Price</th><th>Stock</th><th>Qty</th><th>Add</th></tr>
+{% for p in products %}
+<tr class="product-row" data-name="{{ p.name|lower }} {{ p.sku|lower }}"><td>{{ p.name }}<small class="d-block text-muted">{{ p.sku }}</small></td><td>₹{{ p.price }}</td><td>{{ p.stock }}</td><td><input class="form-control qty" type="number" min="1" max="{{ p.stock }}" value="1" style="width:80px" data-id="{{ p.id }}"></td><td><button type="button" class="btn btn-sm btn-primary add-btn" data-id="{{ p.id }}" data-name="{{ p.name }}" data-price="{{ p.price }}">Add</button></td></tr>
+{% empty %}<tr><td colspan="5">No products in stock. Add products first.</td></tr>{% endfor %}
+</table></div>
+</div></div></div>
+<div class="col-lg-5"><div class="card sticky-lg-top" style="top:80px"><div class="card-body"><h5>Cart</h5><div id="cart"></div><hr><div class="d-flex justify-content-between"><span>Subtotal</span><b id="subtotal">₹0.00</b></div>
+<div class="mt-2"><label>Discount</label><input id="discount" name="discount" type="number" min="0" step="0.01" value="0" class="form-control"></div>
+<div class="mt-2"><label>Payment</label><select name="payment_method" class="form-select"><option>CASH</option><option>UPI</option><option>CARD</option></select></div>
+<div class="d-flex justify-content-between fs-4 mt-3"><span>Total</span><b id="total">₹0.00</b></div>
+<button class="btn btn-success w-100 mt-3" type="submit">Complete Sale & Generate Bill</button></div></div></div>
+</div></form></div>
+<script>
+const cart = {};
+function renderCart(){
+  const box=document.getElementById('cart'); box.innerHTML='';
+  let subtotal=0;
+  Object.values(cart).forEach(item=>{
+    subtotal += item.price*item.qty;
+    const row=document.createElement('div');
+    row.className='border rounded p-2 mb-2';
+    row.innerHTML=`<div class="d-flex justify-content-between"><span>${item.name}</span><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem('${item.id}')">×</button></div><small>${item.qty} × ₹${item.price.toFixed(2)} = ₹${(item.qty*item.price).toFixed(2)}</small>
+    <input type="hidden" name="product_id" value="${item.id}"><input type="hidden" name="quantity" value="${item.qty}">`;
+    box.appendChild(row);
+  });
+  document.getElementById('subtotal').textContent='₹'+subtotal.toFixed(2);
+  const d=parseFloat(document.getElementById('discount').value||0);
+  document.getElementById('total').textContent='₹'+Math.max(0,subtotal-d).toFixed(2);
+}
+function removeItem(id){delete cart[id];renderCart();}
+document.querySelectorAll('.add-btn').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  const id=btn.dataset.id;
+  const qty=parseInt(btn.closest('tr').querySelector('.qty').value||1);
+  const price=parseFloat(btn.dataset.price);
+  cart[id]={id,name:btn.dataset.name,price,qty};
+  renderCart();
+ });
+});
+document.getElementById('discount').addEventListener('input',renderCart);
+document.getElementById('productSearch').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase();
+ document.querySelectorAll('.product-row').forEach(r=>r.style.display=r.dataset.name.includes(q)?'':'none');
+});
+</script>
+{% endblock %}

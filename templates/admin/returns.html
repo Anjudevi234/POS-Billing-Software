@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Returns{% endblock %}
+{% block content %}
+<div class="container-fluid py-4"><h2 class="mb-3">Product Returns</h2>
+<div class="card"><div class="card-body table-responsive"><table class="table align-middle">
+<tr><th>Invoice</th><th>Product</th><th>Sold Qty</th><th>Price</th><th>Return</th></tr>
+{% for i in sale_items %}
+<tr><td>{{ i.sale.invoice_no }}</td><td>{{ i.product.name }}</td><td>{{ i.quantity }}</td><td>₹{{ i.unit_price }}</td>
+<td><form method="post" action="{% url 'process_return' i.pk %}" class="d-flex gap-2">{% csrf_token %}<input name="quantity" type="number" min="1" max="{{ i.quantity }}" value="1" class="form-control" style="max-width:90px"><input name="reason" class="form-control" placeholder="Reason"><button class="btn btn-warning">Process</button></form></td></tr>
+{% empty %}<tr><td colspan="5">No sale items.</td></tr>{% endfor %}
+</table></div></div></div>
+{% endblock %}

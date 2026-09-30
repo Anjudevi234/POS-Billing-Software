@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Login | POS Billing{% endblock %}
+{% block content %}
+<div class="login-wrap">
+  <div class="card login-card shadow">
+    <div class="card-body p-4">
+      <h2 class="fw-bold mb-1">POS Billing</h2>
+      <p class="text-muted mb-4">Admin & Billing Portal</p>
+      <form method="post">
+        {% csrf_token %}
+        <label class="form-label">Username</label>
+        <input name="username" class="form-control mb-3" required>
+        <label class="form-label">Password</label>
+        <input name="password" type="password" class="form-control mb-3" required>
+        <button class="btn btn-primary w-100">Login</button>
+      </form>
+      <div class="small text-muted mt-3">Create users with <code>createsuperuser</code> or through the Admin Staff page.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

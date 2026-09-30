@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div><h2 class="fw-bold mb-1">Admin Dashboard</h2><p class="text-muted">Retail POS management overview</p></div>
+    <a class="btn btn-dark" href="{% url 'admin_portal_mobile' %}">Open Mobile UI</a>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><div class="stat"><span>Products</span><strong>{{ product_count }}</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat"><span>Staff</span><strong>{{ staff_count }}</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat"><span>Suppliers</span><strong>{{ supplier_count }}</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat"><span>Sales</span><strong>₹{{ sales_total|floatformat:2 }}</strong></div></div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-md-4"><a class="quick" href="{% url 'products' %}">📦 Product Management</a></div>
+    <div class="col-md-4"><a class="quick" href="{% url 'staff' %}">👥 Staff Management</a></div>
+    <div class="col-md-4"><a class="quick" href="{% url 'suppliers' %}">🚚 Supplier Management</a></div>
+    <div class="col-md-4"><a class="quick" href="{% url 'returns' %}">↩ Returns</a></div>
+    <div class="col-md-4"><a class="quick" href="{% url 'ledger' %}">📒 Ledger</a></div>
+    <div class="col-md-4"><a class="quick" href="{% url 'reports' %}">📊 Reports</a></div>
+  </div>
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="card"><div class="card-body">
+        <h5>Low Stock</h5>
+        <div class="table-responsive"><table class="table table-sm">
+          <tr><th>Product</th><th>SKU</th><th>Stock</th></tr>
+          {% for p in low_stock %}<tr><td>{{ p.name }}</td><td>{{ p.sku }}</td><td>{{ p.stock }}</td></tr>{% empty %}<tr><td colspan="3">No low-stock products.</td></tr>{% endfor %}
+        </table></div>
+      </div></div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card"><div class="card-body">
+        <h5>Recent Sales</h5>
+        <div class="table-responsive"><table class="table table-sm">
+          <tr><th>Invoice</th><th>Staff</th><th>Total</th></tr>
+          {% for s in recent_sales %}<tr><td>{{ s.invoice_no }}</td><td>{{ s.staff.username }}</td><td>₹{{ s.total }}</td></tr>{% empty %}<tr><td colspan="3">No sales yet.</td></tr>{% endfor %}
+        </table></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

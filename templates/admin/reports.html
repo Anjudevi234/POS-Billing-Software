@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="container py-4"><h2>Reports</h2>
+<div class="row g-3 my-2"><div class="col-md-4"><div class="stat"><span>Total Sales</span><strong>₹{{ total_sales }}</strong></div></div><div class="col-md-4"><div class="stat"><span>Invoices</span><strong>{{ invoice_count }}</strong></div></div><div class="col-md-4"><div class="stat"><span>Items Sold</span><strong>{{ items_sold }}</strong></div></div></div>
+<div class="row g-3 mt-1"><div class="col-md-6"><div class="card"><div class="card-body"><h5>Payment Summary</h5><table class="table"><tr><th>Method</th><th>Count</th><th>Total</th></tr>{% for p in payment_summary %}<tr><td>{{ p.payment_method }}</td><td>{{ p.count }}</td><td>₹{{ p.total }}</td></tr>{% endfor %}</table></div></div></div>
+<div class="col-md-6"><div class="card"><div class="card-body"><h5>Top Products</h5><table class="table"><tr><th>Product</th><th>Qty</th></tr>{% for p in top_products %}<tr><td>{{ p.product__name }}</td><td>{{ p.qty }}</td></tr>{% endfor %}</table></div></div></div></div>
+</div>
+{% endblock %}
