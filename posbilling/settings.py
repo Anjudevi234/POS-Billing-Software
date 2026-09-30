@@ -4,7 +4,9 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-change-this-secret-key")
+import os
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-local-development-key")
 DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = ['*']
